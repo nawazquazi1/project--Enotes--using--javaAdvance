@@ -77,7 +77,7 @@ public class UserDao {
 		boolean f = false;
 		try {
 
-			String query = "update user set name=? , email=? , password=? , gender=? ,about=? , profile=? where  id =?";
+			String query = "update users set name=? , email=? , password=? , gender=? ,about=? , profile=? where  id =?";
 			PreparedStatement p = con.prepareStatement(query);
 			p.setString(1, user.getName());
 			p.setString(2, user.getEmail());

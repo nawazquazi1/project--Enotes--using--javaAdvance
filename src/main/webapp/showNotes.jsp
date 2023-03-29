@@ -11,18 +11,17 @@ if (user == null) {
 }
 %>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Profile</title>
-<!--css-->
+<meta charset="UTF-8">
+<title>Show Notes</title>
 <%@include file="includes/allCss.jsp"%>
-<style>
-</style>
 </head>
 <body>
+
 	<!--navbar-->
 
 	<nav class="navbar navbar-expand-lg navbar-dark primary-background">
@@ -46,10 +45,6 @@ if (user == null) {
 					data-toggle="modal" data-target="#add-post-modal"> <span
 						class="	fa fa-asterisk"></span> Add Notes
 				</a></li>
-				<li class="nav-item"><a class="nav-link" href="showNotes.jsp">
-						<span class="	"></span> Show Notes
-				</a></li>
-
 			</ul>
 
 			<ul class="navbar-nav mr-right">
@@ -69,10 +64,6 @@ if (user == null) {
 
 	<!--end of navbar-->
 
-
-
-
-
 	<%
 	Message m = (Message) session.getAttribute("msg");
 	if (m != null) {
@@ -85,6 +76,42 @@ if (user == null) {
 	}
 	%>
 
+	<main>
+		<div class="container">
+			<h2 class="text-center">All Notes</h2>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card mt-3">
+						<img alt="" src="img/paper.png" class="card-img-top mt-2 mx-auto"
+							style="max-width: 100px;" />
+						<div class="card-body p-4">
+							<h5 class="card-title"></h5>
+							<p></p>
+
+							<p>   
+							<b class="text-success">published by: </b><br><b
+							class="text-primary"></b>
+							</p>
+							
+							<div class="container text-center mt-2">
+							<a href="" class="btn btn-damger">Delete</a>
+							</div>
+							
+							<div class="container text-center mt-2">
+							<a href="" class="btn btn-damger">Edite</a>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+
+	</main>
+
+
 
 	<!--profile modal-->
 	<!-- Modal -->
@@ -93,7 +120,7 @@ if (user == null) {
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header primary-background text-white text-center">
-					<h5 class="modal-title" id="exampleModalLabel">TechBlog</h5>
+					<h5 class="modal-title" id="exampleModalLabel">Notes</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -198,28 +225,11 @@ if (user == null) {
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Close</button>
-					<button id="edit-profile-button" type="button"
-						class="btn btn-primary">EDIT</button>
+
 				</div>
 			</div>
 		</div>
 	</div>
-
-
-	<!--end of profile modal-->
-
-	<!--add post modal-->
-
-	<div class="card mt-3">
-		<div class="card-body text-center">
-			<img alt="" src="img/paper.jpg" class="img-fluid mx-auto"
-				style="max-width: 300px">
-			<h1>START TAKING YOUR NOTES</h1>
-			<a href="#" class="btn btn-outline-primary" data-toggle="modal"
-				data-target="#add-post-modal">Start Here</a>
-		</div>
-	</div>
-
 
 	<!-- Modal -->
 	<div class="modal fade" id="add-post-modal" tabindex="-1" role="dialog"
@@ -272,25 +282,6 @@ if (user == null) {
 	</div>
 
 	<!--  END add post modal-->
-
-	<script>
-		$(document).ready(function() {
-			let editStatus = false;
-			$('#edit-profile-button').click(function() {
-				if (editStatus == false) {
-					$("#profile-details").hide()
-					$("#profile-edit").show();
-					editStatus = true;
-					$(this).text("Back")
-				} else {
-					$("#profile-details").show()
-					$("#profile-edit").hide();
-					editStatus = false;
-					$(this).text("Edit")
-				}
-			})
-		});
-	</script>
 	<!--now add post js -->
 	<script>
 		$(document)
@@ -346,33 +337,6 @@ if (user == null) {
 														})
 											})
 						})
-	</script>
-
-
-	<!--loading post using ajax -->
-	<script>
-		function getPosts(catId, temp) {
-			$("#loader").show();
-			$("#post-container").hide()
-			$(".c-link").removeClass('active')
-			$.ajax({
-				url : "loadPosts.jsp",
-				data : {
-					cid : catId
-				},
-				success : function(data, textStatus, jqXHR) {
-					console.log(data);
-					$("#loader").hide();
-					$("#post-container").show();
-					$('#post-container').html(data)
-					$(temp).addClass('active')
-				}
-			})
-		}
-		$(document).ready(function(e) {
-			let allPostRef = $('.c-link')[0]
-			getPosts(0, allPostRef)
-		})
 	</script>
 
 	<%@include file="/includes/footer.jsp"%>

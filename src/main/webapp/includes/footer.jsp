@@ -1,4 +1,3 @@
-
 <footer class="footer text-center text-white primary-background mr-3 ">
 	<div class="container">
 		<div class="row">

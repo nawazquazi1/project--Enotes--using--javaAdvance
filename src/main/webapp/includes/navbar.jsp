@@ -22,9 +22,12 @@
 					class="fa fa-address-book-o "></span> Show Notes
 			</a></li>
 		</ul>
+		
+		
 		<form class="form-inline my-2 my-lg-0">
-			<a class="btn btn-light my-2 my-sm-0 mr-2" type="submit"><span
-				class="fa fa-user-circle"></span> Login</a> <a
+			<a href="login.jsp"class="btn btn-light my-2 my-sm-0 mr-2" type="submit"><span
+				class="fa fa-user-circle"></span> Login</a> <a href=
+				"registration.jsp"
 				class="btn btn-light my-2 my-sm-0" type="submit"><span
 				class="fa fa-user-plus "></span> Register</a>
 
