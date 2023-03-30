@@ -1,9 +1,11 @@
-<%@page import="com.notes.entities.User"%>
+<%@page import="com.notes.entities.*"%>
 <%@page import="com.notes.entities.Post"%>
 <%@page import="com.notes.entities.Message"%>
 <%@page import="java.util.List"%>
 <%@page import="com.notes.helper.ConnectionProvider"%>
 <%@page import="com.notes.dao.PostDao"%>
+<%@page import="com.notes.dao.UserDao"%>
+<%@page import="java.text.DateFormat"%>
 <%
 User user = (User) session.getAttribute("currentUser");
 if (user == null) {
@@ -74,6 +76,15 @@ if (user == null) {
 	<%
 	session.removeAttribute("msg");
 	}
+	PostDao d = new PostDao(ConnectionProvider.getConnection());
+
+	List<Post> posts = d.getAllPosts();
+
+	if (posts.size() == 0) {
+	out.println("<h3 class='display-3 text-center'>No Posts in this category..</h3>");
+	return;
+	}
+	for (Post p : posts) {
 	%>
 
 	<main>
@@ -82,24 +93,30 @@ if (user == null) {
 			<div class="row">
 				<div class="col-md-12">
 					<div class="card mt-3">
-						<img alt="" src="img/paper.png" class="card-img-top mt-2 mx-auto"
-							style="max-width: 100px;" />
+						<img alt="" src="blog_pics/<%=p.getpPic()%>"
+							class="card-img-top mt-2 mx-auto" style="max-width: 100px;" />
 						<div class="card-body p-4">
 							<h5 class="card-title"></h5>
-							<p></p>
+							<h4 class="post-title"><%=p.getpTitle()%></h4>
+							<p><%=p.getpContent()%></p>
 
-							<p>   
-							<b class="text-success">published by: </b><br><b
-							class="text-primary"></b>
+							<%
+							UserDao ud = new UserDao(ConnectionProvider.getConnection());
+							User u = ud.getUserByUserId(p.getUserId());;
+							%>
+							<p class="post-user-info text-success">
+								<a href="#!">published by: <%=u.getName()%></a>
 							</p>
-							
+							<p class="post-date text-dark">
+								<%=DateFormat.getDateTimeInstance().format(p.getpDate())%>
+							</p>
+
 							<div class="container text-center mt-2">
-							<a href="" class="btn btn-damger">Delete</a>
+								<a href="DeleteNotesController?note_id=<%=p.getPid()%>"
+									class="btn btn-danger">Delete</a> <a href=""
+									class="btn btn-primary">Edit</a>
 							</div>
-							
-							<div class="container text-center mt-2">
-							<a href="" class="btn btn-damger">Edite</a>
-							</div>
+
 						</div>
 
 					</div>
@@ -110,11 +127,16 @@ if (user == null) {
 		</div>
 
 	</main>
+	<%
+	}
+	%>
 
 
 
-	<!--profile modal-->
-	<!-- Modal -->
+
+
+
+
 	<div class="modal fade" id="profile-modal" tabindex="-1" role="dialog"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
@@ -207,8 +229,7 @@ if (user == null) {
 									</tr>
 									<tr>
 										<td>New Profile:</td>
-										<td><input type="file" name="image" class="form-control">
-										</td>
+										<td><input type="file" name="image" class="form-control"></td>
 									</tr>
 
 								</table>
@@ -225,7 +246,6 @@ if (user == null) {
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Close</button>
-
 				</div>
 			</div>
 		</div>
@@ -340,6 +360,5 @@ if (user == null) {
 	</script>
 
 	<%@include file="/includes/footer.jsp"%>
-
 </body>
 </html>

@@ -99,7 +99,7 @@ public class UserDao {
 	public User getUserByUserId(int userId) {
 		User user = null;
 		try {
-			String q = "select * from user where id=?";
+			String q = "select * from users where id=?";
 			PreparedStatement ps = this.con.prepareStatement(q);
 			ps.setInt(1, userId);
 			ResultSet set = ps.executeQuery();
@@ -110,7 +110,6 @@ public class UserDao {
 				String name = set.getString("name");
 //	             set to user object
 				user.setName(name);
-
 				user.setId(set.getInt("id"));
 				user.setEmail(set.getString("email"));
 				user.setPassword(set.getString("password"));
@@ -119,6 +118,7 @@ public class UserDao {
 				user.setDateTime(set.getTimestamp("date"));
 				user.setProfile(set.getString("profile"));
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

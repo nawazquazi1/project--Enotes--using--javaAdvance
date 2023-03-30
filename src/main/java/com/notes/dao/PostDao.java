@@ -61,5 +61,19 @@ public class PostDao {
 		}
 		return list;
 	}
+	
+	public boolean deleteNotes(int id) {
+        boolean result = false;
+        try {
+            PreparedStatement pst = this.con.prepareStatement("delete from notes where pid=?");
+            pst.setInt(1, id);
+            pst.execute();
+            result = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.print(e.getMessage());
+        }
+        return result;
+    }
 
 }
